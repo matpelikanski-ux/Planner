@@ -200,3 +200,9 @@ Zrzuty wykonane na 390 px i 320 px. Brak poziomego przewijania strony (dobrze), 
 - iOS Safari + zainstalowana PWA: logowanie w PWA vs Safari, otwieranie Training z Planera.
 - Android Chrome: zachowanie Realtime po 10+ min w tle (Doze), `wakeLock` w trybie „Trening w toku”.
 - Dwie karty Planera jednocześnie (test P1-3) i edycja tej samej drużyny z dwóch urządzeń (P2-1).
+
+## 7. Status wdrożenia
+
+- **Etap 1 — serwer (gotowe do wgrania):** [`deploy/`](../deploy/README.md) — cache i nagłówki, manifesty PWA
+  z ikonami maskable, zrzutami i skrótami, skrypt sprzątania starych buildów.
+- **Etap 2 — kod źródłowy:** czeka na dostęp do źródeł projektu PFG Coach Studio (Vite).

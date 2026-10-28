@@ -1,0 +1,68 @@
+{
+  "name": "PFG Tactics",
+  "short_name": "PFG Tactics",
+  "description": "Tablica taktyczna z animacją krokami",
+  "lang": "pl",
+  "dir": "ltr",
+  "id": "/coach/tactics/",
+  "start_url": "/coach/tactics/",
+  "scope": "/coach/tactics/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0B1422",
+  "theme_color": "#0B0F14",
+  "categories": [
+    "sports",
+    "productivity",
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "/brand/tactics-dark-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/tactics-dark-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/tactics-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/brand/tactics-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/brand/screens/tactics-wide.webp",
+      "sizes": "1600x1000",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "PFG Tactics"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Nowa taktyka",
+      "short_name": "Nowa taktyka",
+      "url": "/coach/tactics/board/new",
+      "icons": [
+        {
+          "src": "/brand/tactics-maskable-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

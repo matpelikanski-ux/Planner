@@ -1,0 +1,61 @@
+{
+  "name": "PFG Planner",
+  "short_name": "PFG Planner",
+  "description": "Planowanie makrocyklu, mikrocyklu i harmonogramu drużyny",
+  "lang": "pl",
+  "dir": "ltr",
+  "id": "/coach/planner/",
+  "start_url": "/coach/planner/",
+  "scope": "/coach/planner/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0B1422",
+  "theme_color": "#0B0F14",
+  "categories": [
+    "sports",
+    "productivity",
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "/brand/planner-app-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/planner-app-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/planner-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/brand/planner-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/brand/screens/planner-wide.webp",
+      "sizes": "1600x1000",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "PFG Planner"
+    },
+    {
+      "src": "/brand/screens/planner-narrow.webp",
+      "sizes": "780x1688",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "PFG Planner na telefonie"
+    }
+  ]
+}

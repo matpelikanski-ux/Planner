@@ -1,0 +1,13 @@
+# =====================================================================
+#  PFG — /assets/ (pliki z buildu Vite)
+#  Każdy plik ma hash treści w nazwie (np. bootstrap-DdKl4dcN.js), więc nowa
+#  wersja = nowa nazwa. Przeglądarka może je trzymać rok i nie pytać serwera.
+#  Nie usuwaj tego pliku przy wgrywaniu nowego buildu.
+# =====================================================================
+# Sekcja <FilesMatch> (a nie samo „Header set”), bo reguły <FilesMatch> z katalogu
+# głównego są stosowane po zwykłych dyrektywach i nadpisałyby ten nagłówek.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2?|png|webp|svg|jpe?g)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>

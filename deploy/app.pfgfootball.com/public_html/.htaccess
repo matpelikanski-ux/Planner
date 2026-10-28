@@ -6,6 +6,9 @@ DirectoryIndex index.html
 #  1) przekierowania starych adresów aplikacji pod /coach/
 #  2) blokada plików, które nie powinny być publiczne
 #  3) podstawowe nagłówki bezpieczeństwa dla całej domeny
+#  4) cache i kompresja (aktualizacja 28.10.2026 — audyt sync/mobile):
+#     pliki z /assets/ mają własne /assets/.htaccess (cache na rok),
+#     tu: manifesty bez cache, ikony i zrzuty z /brand/ na tydzień.
 #
 #  CSP: strona główna ma własną CSP w znaczniku <meta>, aplikacje w
 #  /coach/ dostają CSP z /coach/.htaccess, a /share/ z /share/.htaccess.
@@ -67,10 +70,31 @@ DirectoryIndex index.html
   Header always unset X-Powered-By
   Header unset X-Powered-By
 
+  # „Header set” (bez „always”), żeby /coach/.htaccess i /share/.htaccess mogły ten nagłówek
+  # nadpisać zamiast dopisywać drugi Cache-Control.
   <FilesMatch "\.(html)$">
-    Header always set Cache-Control "no-cache, must-revalidate"
+    Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
-  <FilesMatch "^(sw\.js|manifest\.webmanifest)$">
+  # Wszystkie manifesty PWA (manifest.webmanifest i manifest-planner/-tactics/-training)
+  # oraz wyłączniki starych Service Workerów — zawsze sprawdzane na serwerze.
+  <FilesMatch "^(sw\.js|manifest(-[a-z]+)?\.webmanifest)$">
     Header always set Cache-Control "no-cache"
   </FilesMatch>
+
+  # Ikony, zrzuty ekranu i fonty bez hasha w nazwie — tydzień.
+  # Przy zmianie grafiki pod tą samą nazwą przeglądarki pobiorą ją najpóźniej po 7 dniach.
+  <FilesMatch "\.(png|webp|jpg|jpeg|svg|ico|woff2)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
+  AddType font/woff2 .woff2
+  AddType image/webp .webp
+</IfModule>
+
+# Kompresja tekstu (LiteSpeed w Hostido zwykle kompresuje sam — ta sekcja nie szkodzi).
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/javascript application/javascript application/json application/manifest+json image/svg+xml application/xml
 </IfModule>
