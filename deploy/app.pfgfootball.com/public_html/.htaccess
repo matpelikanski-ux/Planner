@@ -1,0 +1,76 @@
+Options -Indexes
+DirectoryIndex index.html
+
+# =====================================================================
+#  PFG — katalog główny app.pfgfootball.com  (wersja z audytu 19.10.2026)
+#  1) przekierowania starych adresów aplikacji pod /coach/
+#  2) blokada plików, które nie powinny być publiczne
+#  3) podstawowe nagłówki bezpieczeństwa dla całej domeny
+#
+#  CSP: strona główna ma własną CSP w znaczniku <meta>, aplikacje w
+#  /coach/ dostają CSP z /coach/.htaccess, a /share/ z /share/.htaccess.
+# =====================================================================
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Zawsze HTTPS
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # Pliki ukryte (.git, .env, .DS_Store …) — poza .well-known (certyfikaty SSL)
+  RewriteCond %{REQUEST_URI} !^/\.well-known/
+  RewriteRule (^|/)\. - [F,L]
+
+  # sw.js zostaje na starym miejscu — to wyłącznik starego Service Workera
+  RewriteCond %{REQUEST_URI} !/sw\.js$
+  RewriteRule ^training(/.*)?$ /coach/training$1 [R=302,L]
+  RewriteCond %{REQUEST_URI} !/sw\.js$
+  RewriteRule ^tactics(/.*)?$ /coach/tactics$1 [R=302,L]
+</IfModule>
+
+# Archiwa, kopie zapasowe, mapy źródeł i pliki konfiguracyjne nie są serwowane,
+# nawet jeśli ktoś je przypadkiem wgra na serwer.
+<FilesMatch "\.(zip|rar|7z|tar|gz|tgz|bak|old|orig|swp|sql|map|env|log|ini|md|ts|tsx)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+<FilesMatch "^(index-hostido\.html|_headers|_redirects|package(-lock)?\.json|composer\.(json|lock))$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "DENY"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Cross-Origin-Resource-Policy "same-origin"
+
+  # HSTS: przeglądarka przez rok łączy się z tą domeną wyłącznie przez HTTPS.
+  # Wymaga ważnego certyfikatu SSL dla app.pfgfootball.com (Hostido: Let's Encrypt).
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # Ukrycie wersji serwera/PHP (o ile hosting pozwala)
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+
+  <FilesMatch "\.(html)$">
+    Header always set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "^(sw\.js|manifest\.webmanifest)$">
+    Header always set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
